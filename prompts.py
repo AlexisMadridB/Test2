@@ -66,13 +66,13 @@ A) Si la solicitud es una EXPLICACIÓN TEÓRICA o conceptual, responde en Markdo
 
 B) Si la solicitud es un EJERCICIO PRÁCTICO, RETO o EVALUACIÓN, responde
    ÚNICAMENTE con un objeto JSON válido (sin texto fuera del JSON) con esta forma:
-   {
+   {{
      "enunciado": "string",
      "nivel_dificultad": "principiante | intermedio | avanzado",
      "pistas": ["string", "string"],
      "solucion_codigo": "string (código Python)",
      "explicacion_solucion": "string"
-   }
+   }}
 
 Si tienes dudas sobre cuál de los dos formatos usar, prioriza el formato A
 (Markdown) para preguntas de "qué es / cómo funciona" y el formato B (JSON)
