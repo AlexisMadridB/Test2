@@ -1,0 +1,121 @@
+[
+  {
+    "id": "Q01",
+    "question": "¿Qué comando se usa para crear una nueva base de datos y qué cláusula evita errores si ya existe?",
+    "ground_truth": "Se usa CREATE DATABASE, y la cláusula IF NOT EXISTS evita el error cuando ya existe una base de datos con ese nombre.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q02",
+    "question": "¿Para qué sirve el comando USE en MySQL?",
+    "ground_truth": "USE selecciona la base de datos activa: MySQL no la selecciona automáticamente al crearla, así que USE indica que las operaciones siguientes (crear tablas, insertar, buscar) se harán sobre esa base.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q03",
+    "question": "¿Qué pasa cuando ejecuto DROP DATABASE?",
+    "ground_truth": "DROP DATABASE es una operación destructiva: elimina permanentemente la base de datos completa junto con todas sus tablas y registros.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q04",
+    "question": "¿Cuál es la diferencia entre usar AND y OR en una cláusula WHERE?",
+    "ground_truth": "Con AND ambas condiciones deben ser verdaderas; con OR basta con que al menos una de las condiciones sea verdadera.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q05",
+    "question": "¿Qué representan los comodines % y _ en el operador LIKE?",
+    "ground_truth": "El signo de porcentaje (%) representa cero, uno o múltiples caracteres, y el guion bajo (_) representa un único carácter exacto.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q06",
+    "question": "¿Cómo se buscan los valores nulos en una tabla?",
+    "ground_truth": "Se usan los operadores IS NULL o IS NOT NULL; no se puede usar = NULL. Además, NULL (dato ausente o desconocido) no es lo mismo que un campo vacío ('') ni que un cero (0).",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q07",
+    "question": "¿Por qué se recomienda usar ORDER BY junto con LIMIT?",
+    "ground_truth": "Porque si no se ordenan los resultados antes de limitarlos, MySQL devuelve los registros en un orden arbitrario y las búsquedas se vuelven impredecibles; por eso siempre se debe ordenar antes de limitar.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q08",
+    "question": "¿Cómo obtengo la página 2 de resultados si cada página tiene 10 registros?",
+    "ground_truth": "Con LIMIT 10 OFFSET 10 (junto con un ORDER BY, por ejemplo ORDER BY id ASC): se saltan los primeros 10 resultados y se devuelven los 10 siguientes.",
+    "in_corpus": true,
+    "source_hint": "Creación y Búsqueda en MySQL.pdf"
+  },
+  {
+    "id": "Q09",
+    "question": "¿Para qué se usa DELIMITER // al crear un procedimiento almacenado?",
+    "ground_truth": "Porque el ; termina una instrucción y confundiría a MySQL con los ; internos del bloque; DELIMITER // cambia temporalmente el símbolo de cierre y luego se restaura con DELIMITER ;.",
+    "in_corpus": true,
+    "source_hint": "Programación en MySQL.pdf"
+  },
+  {
+    "id": "Q10",
+    "question": "¿Cuáles son los tres tipos de parámetros de un procedimiento almacenado?",
+    "ground_truth": "IN (por defecto, envía información hacia el procedimiento), OUT (el procedimiento devuelve un valor mediante la variable) e INOUT (entra con un valor, se modifica dentro y sale con el nuevo valor).",
+    "in_corpus": true,
+    "source_hint": "Programación en MySQL.pdf"
+  },
+  {
+    "id": "Q11",
+    "question": "¿Qué diferencias hay entre un procedimiento almacenado y una función definida por el usuario?",
+    "ground_truth": "El procedimiento se llama con CALL, puede no devolver nada o usar parámetros OUT y puede modificar datos (INSERT, UPDATE, DELETE). La función se usa dentro de sentencias SQL como un SELECT, debe devolver un único valor con RETURN y no puede modificar la base de datos.",
+    "in_corpus": true,
+    "source_hint": "Programación en MySQL.pdf"
+  },
+  {
+    "id": "Q12",
+    "question": "¿Qué es un trigger y qué representan NEW y OLD dentro de él?",
+    "ground_truth": "Un trigger es un programa que se ejecuta automáticamente ante INSERT, UPDATE o DELETE en una tabla, antes (BEFORE) o después (AFTER) del evento. NEW son los datos nuevos (existe en INSERT/UPDATE) y OLD los datos viejos antes de modificarse o eliminarse (existe en UPDATE/DELETE).",
+    "in_corpus": true,
+    "source_hint": "Programación en MySQL.pdf"
+  },
+{
+    "id": "Q13",
+    "question": "¿Qué representan las filas y columnas en una tabla de base de datos relacional?",
+    "ground_truth": "Las columnas representan los atributos, características o campos que definen la estructura de los datos, mientras que las filas (o tuplas) representan los registros individuales o instancias de esos datos.",
+    "in_corpus": true,
+    "source_hint": "Fundamentos de MySQL.pdf"
+  },
+  {
+    "id": "Q14",
+    "question": "¿Cuál es la principal diferencia entre los tipos de datos CHAR y VARCHAR en MySQL?",
+    "ground_truth": "CHAR tiene una longitud fija y siempre ocupa el tamaño definido (rellenando con espacios si es necesario), mientras que VARCHAR es de longitud variable y solo ocupa el espacio del texto ingresado más uno o dos bytes para registrar su longitud.",
+    "in_corpus": true,
+    "source_hint": "Fundamentos de MySQL.pdf"
+  },
+  {
+    "id": "Q15",
+    "question": "¿Por qué es fundamental incluir siempre la cláusula WHERE al utilizar sentencias como UPDATE o DELETE?",
+    "ground_truth": "Porque si se omite la cláusula WHERE, no hay ningún filtro aplicado, lo que provocará que la actualización o eliminación afecte a todos los registros de la tabla masivamente, pudiendo causar una pérdida grave de datos.",
+    "in_corpus": true,
+    "source_hint": "Fundamentos de MySQL.pdf"
+  },
+  {
+    "id": "Q16",
+    "question": "¿Cómo funciona la cláusula PRIMARY KEY en una tabla?",
+    "ground_truth": "La PRIMARY KEY (clave primaria) identifica de forma única cada registro en una tabla. No puede contener valores nulos (NULL) y sus valores no pueden repetirse, asegurando la integridad de los datos.",
+    "in_corpus": true,
+    "source_hint": "Fundamentos de MySQL.pdf"
+  },
+  {
+    "id": "Q17",
+    "question": "¿Cuál es la diferencia de resultados entre un INNER JOIN y un LEFT JOIN?",
+    "ground_truth": "Un INNER JOIN devuelve únicamente los registros que tienen coincidencias en ambas tablas cruzadas. Un LEFT JOIN devuelve todos los registros de la tabla de la izquierda, y si no hay coincidencia en la tabla de la derecha, rellena esos campos con valores NULL.",
+    "in_corpus": true,
+    "source_hint": "Fundamentos de MySQL.pdf"
+  }
+]
