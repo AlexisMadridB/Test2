@@ -1,0 +1,7 @@
+# Solo para evaluar con Ragas en local (NO se instala en Render)
+-r requirements.txt
+ragas>=0.2,<0.4
+langchain-groq>=0.2
+langchain-google-genai>=2.0
+datasets>=2.19
+pandas>=2.0
