@@ -3,8 +3,8 @@
 Chatbot web (Flask) que responde preguntas de **Bases de Datos / MySQL** usando **únicamente** los PDF de la carpeta `pdfs/`.
 Cada respuesta cita documento y página, y el chat muestra los fragmentos que la respaldan.
 
-- **URL pública:** `https://<PEGA-AQUÍ-LA-URL-DE-RENDER>.onrender.com`
-- **Repositorio:** `https://github.com/<usuario>/<repo>`
+- **URL pública:** `https://tutoria-rag-3eez.onrender.com/`
+- **Repositorio:** `https://github.com/AlexisMadridB/Test2`
 
 > El sistema conserva el control de la base de conocimientos y del índice: los PDF no se entregan a servicios de
 > entrenamiento. Al LLM solo se le envían los fragmentos recuperados para cada consulta, nunca el corpus completo.
