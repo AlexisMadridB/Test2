@@ -1,0 +1,830 @@
+﻿id,user_input,retrieved_contexts,response,reference,faithfulness,answer_relevancy,context_precision,context_recall,in_corpus
+Q01,¿Qué comando se usa para crear una nueva base de datos y qué cláusula evita errores si ya existe?,"['recomendable veriﬁcar si ya existe una con el mismo nombre para evitar errores usando la cláusula\nIF NOT EXISTS.\n-- Crear la base de datos solo si no existe previamente CREATE DATABASE IF NOT \nEXISTS tienda_online; -- Listar todas las bases de datos disponibles en el servidor \nSHOW DATABASES;\n     \nSeleccionar la Base de Datos Activa\nUna vez creada, MySQL no la selecciona automáticamente. Debemos indicarle explícitamente al', 'sistema que todas las operaciones siguientes (crear tablas, insertar datos, buscar) se realizarán\nsobre esa base de datos especíﬁca utilizando el comando USE.\n-- Seleccionar la base de datos para empezar a trabajar en ella USE tienda_online;\n     \nEliminar una Base de Datos\nSi un proyecto ya no es necesario o deseas reiniciar desde cero, puedes eliminar la base de datos\ncompleta. Esta operación es destructiva y eliminará permanentemente la base de datos y todas las', '1. Gestión de Bases de Datos\nAntes de poder crear tablas (como usuarios o productos) o buscar información, necesitamos un\n""contenedor"" principal para nuestro proyecto. Ese contenedor es la Base de Datos en sí. Un mismo\nservidor MySQL puede alojar múltiples bases de datos para diferentes proyectos.\nCrear una nueva Base de Datos\nEl comando CREATE DATABASE se utiliza para instanciar una nueva base de datos vacía. Es', 'tablas y registros que contenga.\n-- Eliminar la base de datos por completo DROP DATABASE tienda_online;\n     \nMySQL: Creación y Búsqueda Página 1\ndetallada para gestionar bases de datos y realizar búsquedas de información eﬁcientes.', 'Introducción a SQL: Operaciones CRUD\nEn el mundo de las bases de datos, las siglas CRUD representan las cuatro operaciones básicas que\npodemos realizar sobre los datos: Create (Crear), Read (Leer), Update (Actualizar) y Delete (Eliminar).\n1. Crear una Tabla (CREATE TABLE)\nAntes de insertar datos, necesitamos estructurar nuestra tabla deﬁniendo sus columnas y tipos de\ndatos.\n-- Crear una tabla para almacenar información de clientes CREATE TABLE clientes (']","## Definición breve  
+El comando **`CREATE DATABASE`** se utiliza en MySQL para crear una nueva base de datos vacía.  
+Para evitar errores cuando la base de datos ya existe, se añade la cláusula **`IF NOT EXISTS`**.
+
+## Explicación detallada  
+- **`CREATE DATABASE`**: crea un contenedor lógico donde se almacenarán tablas, vistas, procedimientos, etc.  
+- **`IF NOT EXISTS`**: es una condición opcional que comprueba si la base de datos con el nombre especificado ya está presente.  
+  - Si la base de datos **no** existe, se crea sin problemas.  
+  - Si la base de datos **sí** existe, la sentencia no lanza un error y simplemente no hace nada, lo que permite ejecutar el script de forma idempotente (repetible sin efectos secundarios).
+
+Esto es útil en scripts de despliegue o en entornos donde el mismo script puede ejecutarse varias veces.
+
+## Ejemplo en código  
+```sql
+-- Crear la base de datos solo si no existe previamente
+CREATE DATABASE IF NOT EXISTS tienda_online;
+
+-- Seleccionar la base de datos para trabajar en ella
+USE tienda_online;
+```
+
+## Analogía  
+Imagina que quieres abrir una nueva carpeta en tu computadora para guardar archivos.  
+- **`CREATE DATABASE`** es como hacer clic en “Nueva carpeta”.  
+- **`IF NOT EXISTS`** es como comprobar primero si ya hay una carpeta con ese nombre; si la hay, no intentas crear otra y evitas un error de “ya existe”.  
+De esta forma, tu script de creación de carpetas (o bases de datos) puede ejecutarse sin importar cuántas veces lo hagas.","Se usa CREATE DATABASE, y la cláusula IF NOT EXISTS evita el error cuando ya existe una base de datos con ese nombre.",,,,,True
+Q02,¿Para qué sirve el comando USE en MySQL?,"['sistema que todas las operaciones siguientes (crear tablas, insertar datos, buscar) se realizarán\nsobre esa base de datos especíﬁca utilizando el comando USE.\n-- Seleccionar la base de datos para empezar a trabajar en ella USE tienda_online;\n     \nEliminar una Base de Datos\nSi un proyecto ya no es necesario o deseas reiniciar desde cero, puedes eliminar la base de datos\ncompleta. Esta operación es destructiva y eliminará permanentemente la base de datos y todas las', 'recomendable veriﬁcar si ya existe una con el mismo nombre para evitar errores usando la cláusula\nIF NOT EXISTS.\n-- Crear la base de datos solo si no existe previamente CREATE DATABASE IF NOT \nEXISTS tienda_online; -- Listar todas las bases de datos disponibles en el servidor \nSHOW DATABASES;\n     \nSeleccionar la Base de Datos Activa\nUna vez creada, MySQL no la selecciona automáticamente. Debemos indicarle explícitamente al', '1. Gestión de Bases de Datos\nAntes de poder crear tablas (como usuarios o productos) o buscar información, necesitamos un\n""contenedor"" principal para nuestro proyecto. Ese contenedor es la Base de Datos en sí. Un mismo\nservidor MySQL puede alojar múltiples bases de datos para diferentes proyectos.\nCrear una nueva Base de Datos\nEl comando CREATE DATABASE se utiliza para instanciar una nueva base de datos vacía. Es', 'tablas y registros que contenga.\n-- Eliminar la base de datos por completo DROP DATABASE tienda_online;\n     \nMySQL: Creación y Búsqueda Página 1\ndetallada para gestionar bases de datos y realizar búsquedas de información eﬁcientes.', ""rol IN ('Admin', 'Editor', 'Autor'); -- Uso de BETWEEN: Buscar productos cuyo \nprecio esté entre 50 y 150 SELECT producto, precio FROM inventario WHERE precio \nBETWEEN 50 AND 150; -- BETWEEN también es excelente para rangos de fechas SELECT * \nFROM ventas WHERE fecha_venta BETWEEN '2026-01-01' AND '2026-12-31';\n     \nMySQL: Creación y Búsqueda Página 3""]","## Definición breve  
+El comando **`USE`** en MySQL selecciona la base de datos que será la activa para las operaciones que se ejecuten a continuación (crear tablas, insertar datos, consultar, etc.).
+
+## Explicación detallada  
+Cuando conectas a un servidor MySQL, no se elige automáticamente ninguna base de datos.  
+Para que las sentencias posteriores se apliquen a una base de datos específica, debes indicarle al servidor cuál es la que quieres usar.  
+El comando se escribe así:
+
+```sql
+USE nombre_de_la_base_de_datos;
+```
+
+- **`nombre_de_la_base_de_datos`**: debe existir previamente (puedes crearla con `CREATE DATABASE`).
+- Una vez ejecutado, todas las operaciones que no especifiquen explícitamente una base de datos usarán la que has seleccionado.
+- Si intentas usar una base de datos que no existe, MySQL devuelve un error.
+
+El comando es útil cuando trabajas con varios proyectos en el mismo servidor y quieres cambiar de contexto sin cerrar la conexión.
+
+## Ejemplo en código  
+
+```sql
+-- Crear una base de datos (si no existe)
+CREATE DATABASE IF NOT EXISTS tienda_online;
+
+-- Seleccionar la base de datos activa
+USE tienda_online;
+
+-- Ahora cualquier tabla que crees se guardará en tienda_online
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    precio DECIMAL(10,2)
+);
+
+-- Insertar datos
+INSERT INTO productos (nombre, precio) VALUES ('Camiseta', 29.99);
+
+-- Consultar
+SELECT * FROM productos;
+```
+
+Si no ejecutaras `USE tienda_online;`, la sentencia `CREATE TABLE productos` fallaría porque el servidor no sabría en qué base de datos crear la tabla.
+
+## Analogía  
+Piensa en el servidor MySQL como una oficina con varias estanterías (bases de datos).  
+El comando `USE` es como decirle al asistente: *“A partir de ahora, guarda y busca todo en la estantería llamada `tienda_online`.”*  
+Sin esa indicación, el asistente no sabría en qué estantería colocar o buscar los archivos.","USE selecciona la base de datos activa: MySQL no la selecciona automáticamente al crearla, así que USE indica que las operaciones siguientes (crear tablas, insertar, buscar) se harán sobre esa base.",,,,,True
+Q03,¿Qué pasa cuando ejecuto DROP DATABASE?,"['sistema que todas las operaciones siguientes (crear tablas, insertar datos, buscar) se realizarán\nsobre esa base de datos especíﬁca utilizando el comando USE.\n-- Seleccionar la base de datos para empezar a trabajar en ella USE tienda_online;\n     \nEliminar una Base de Datos\nSi un proyecto ya no es necesario o deseas reiniciar desde cero, puedes eliminar la base de datos\ncompleta. Esta operación es destructiva y eliminará permanentemente la base de datos y todas las', 'tablas y registros que contenga.\n-- Eliminar la base de datos por completo DROP DATABASE tienda_online;\n     \nMySQL: Creación y Búsqueda Página 1\ndetallada para gestionar bases de datos y realizar búsquedas de información eﬁcientes.', '1. Gestión de Bases de Datos\nAntes de poder crear tablas (como usuarios o productos) o buscar información, necesitamos un\n""contenedor"" principal para nuestro proyecto. Ese contenedor es la Base de Datos en sí. Un mismo\nservidor MySQL puede alojar múltiples bases de datos para diferentes proyectos.\nCrear una nueva Base de Datos\nEl comando CREATE DATABASE se utiliza para instanciar una nueva base de datos vacía. Es', '-- Eliminar al cliente que tiene el id 3 DELETE FROM clientes WHERE id = 3;\n     \n¡Precaución con UPDATE y DELETE!\nSi ejecutas un comando UPDATE o DELETE sin escribir la cláusula WHERE, la acción afectará a\nTODAS\nlas ﬁlas de tu tabla. Ej: DELETE FROM clientes; vaciará toda la tabla.\nCláusulas Avanzadas de Consulta\nAdemás de recuperar datos básicos, SQL nos permite ordenar y agrupar la información resultante\npara realizar análisis.', 'recomendable veriﬁcar si ya existe una con el mismo nombre para evitar errores usando la cláusula\nIF NOT EXISTS.\n-- Crear la base de datos solo si no existe previamente CREATE DATABASE IF NOT \nEXISTS tienda_online; -- Listar todas las bases de datos disponibles en el servidor \nSHOW DATABASES;\n     \nSeleccionar la Base de Datos Activa\nUna vez creada, MySQL no la selecciona automáticamente. Debemos indicarle explícitamente al']","## Definición breve  
+`DROP DATABASE` es un comando de MySQL que elimina **por completo** una base de datos, junto con todas sus tablas, índices, vistas, procedimientos y datos. Una vez ejecutado, la base de datos ya no existe en el servidor y no se puede recuperar a menos que se haya hecho una copia de seguridad previa.
+
+## Explicación detallada  
+1. **Efecto inmediato**  
+   - El servidor MySQL elimina el directorio que contiene la base de datos y todos los archivos asociados.  
+   - Se liberan los recursos (espacio en disco, memoria, conexiones) que estaban asignados a esa base de datos.
+
+2. **Requisitos**  
+   - Necesitas privilegios `DROP` sobre la base de datos o privilegios globales `DROP DATABASE`.  
+   - Si la base de datos está en uso por otras conexiones, MySQL las cerrará antes de eliminarla.
+
+3. **Precauciones**  
+   - **Destructivo**: No hay “undo”. Una vez borrada, la información se pierde permanentemente.  
+   - **Uso de `IF EXISTS`**: Puedes evitar un error si la base de datos no existe:  
+     ```sql
+     DROP DATABASE IF EXISTS tienda_online;
+     ```
+   - **Backups**: Siempre es recomendable hacer un respaldo (`mysqldump` o copia de archivos) antes de eliminar una base de datos crítica.
+
+4. **Resultado**  
+   - La base de datos desaparece de la lista de bases (`SHOW DATABASES;`).  
+   - Cualquier referencia a ella (por ejemplo, `USE tienda_online;`) generará un error de “base de datos no encontrada”.
+
+## Ejemplo en código  
+```sql
+-- Crear una base de datos de prueba
+CREATE DATABASE IF NOT EXISTS tienda_online;
+
+-- Insertar una tabla y datos
+USE tienda_online;
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    precio DECIMAL(10,2)
+);
+INSERT INTO productos (nombre, precio) VALUES ('Camiseta', 19.99);
+
+-- Verificar que la tabla existe
+SELECT * FROM productos;
+
+-- Eliminar la base de datos
+DROP DATABASE tienda_online;
+
+-- Intentar usarla después de eliminarla
+USE tienda_online;   -- ERROR: 1049: Base de datos 'tienda_online' no existe
+```
+
+## Analogía  
+Imagina que tu base de datos es una carpeta en tu computadora que contiene varios archivos (tablas) y subcarpetas (procedimientos, vistas).  
+- `DROP DATABASE` es como **eliminar la carpeta principal** con el botón derecho → “Eliminar”.  
+- Todos los archivos y subcarpetas dentro de ella se borran de forma permanente.  
+- Si quieres conservar algo, debes copiar la carpeta a otro lugar antes de eliminarla.  
+
+Así, al ejecutar `DROP DATABASE`, estás borrando la carpeta y todo su contenido de forma irreversible.",DROP DATABASE es una operación destructiva: elimina permanentemente la base de datos completa junto con todas sus tablas y registros.,,,,,True
+Q04,¿Cuál es la diferencia entre usar AND y OR en una cláusula WHERE?,"[""= Igual a WHERE edad = 25\n> / < Mayor que / Menor que WHERE precio > 100\n>= / <= Mayor o igual / Menor o igual WHERE stock <= 10\n!= o <> Diferente de (No es igual a) WHERE estado != 'cancelado'\nOperadores Lógicos (Múltiples condiciones)\nFrecuentemente, las búsquedas requieren cumplir más de una condición al mismo tiempo, o al\nmenos una de varias opciones. Para esto usamos AND, OR y NOT.\n-- Búsqueda con AND: Ambas condiciones DEBEN ser verdaderas -- Busca productos"", ""electrónicos que cuesten menos de 500 SELECT nombre, precio FROM productos WHERE \ncategoria = 'Electrónica' AND precio < 500; -- Búsqueda con OR: Al menos UNA \ncondición debe ser verdadera -- Busca clientes de España o de México SELECT nombre, \npais FROM clientes WHERE pais = 'España' OR pais = 'México'; -- Uso de paréntesis \npara agrupar condiciones complejas SELECT * FROM pedidos WHERE (estado = \n'Pendiente' OR estado = 'En Proceso') AND total > 1000;\n     \nMySQL: Creación y Búsqueda Página 2"", '2. La Búsqueda de Datos: La cláusula WHERE\nUna vez que tienes datos en tus tablas, rara vez querrás verlos todos al mismo tiempo. Para buscar\nregistros especíﬁcos que cumplan con ciertos criterios, utilizamos la cláusula WHERE dentro de una\nsentencia SELECT.\nOperadores de Comparación\nEl ﬁltrado básico se realiza comparando los valores de las columnas con los valores que estamos\nbuscando.\nOperador Signiﬁcado Ejemplo de uso en WHERE\n= Igual a WHERE edad = 25', 'resultados con la cláusula WHERE SELECT * FROM clientes WHERE id = 1;\n     \nGuía de Fundamentos de MySQL Página 3', ""rol IN ('Admin', 'Editor', 'Autor'); -- Uso de BETWEEN: Buscar productos cuyo \nprecio esté entre 50 y 150 SELECT producto, precio FROM inventario WHERE precio \nBETWEEN 50 AND 150; -- BETWEEN también es excelente para rangos de fechas SELECT * \nFROM ventas WHERE fecha_venta BETWEEN '2026-01-01' AND '2026-12-31';\n     \nMySQL: Creación y Búsqueda Página 3""]","## Definición breve  
+- **AND**: todas las condiciones que se listan deben ser verdaderas simultáneamente para que un registro sea incluido en el resultado.  
+- **OR**: al menos una de las condiciones debe ser verdadera; si cualquiera de ellas se cumple, el registro aparece en el resultado.
+
+## Explicación detallada  
+En una cláusula `WHERE` de SQL, las condiciones se combinan con operadores lógicos para filtrar filas.  
+
+- **AND** actúa como un *conector de “y”*.  
+  - Si escribes `WHERE edad > 18 AND ciudad = 'Madrid'`, solo las filas donde la edad sea mayor a 18 *y* la ciudad sea Madrid serán devueltas.  
+  - Si alguna de las condiciones falla, la fila se descarta.
+
+- **OR** actúa como un *conector de “o”*.  
+  - Con `WHERE edad > 18 OR ciudad = 'Madrid'`, se devuelven todas las filas que cumplan al menos una de las dos condiciones: edad mayor a 18, ciudad Madrid, o ambas.  
+  - Si ninguna condición se cumple, la fila se descarta.
+
+Cuando se combinan ambos operadores, es importante usar paréntesis para controlar la precedencia y evitar resultados inesperados. Por ejemplo:
+
+```sql
+-- Busca clientes que sean mayores de 18 y vivan en Madrid
+SELECT * FROM clientes WHERE edad > 18 AND ciudad = 'Madrid';
+
+-- Busca clientes que sean mayores de 18 o vivan en Madrid
+SELECT * FROM clientes WHERE edad > 18 OR ciudad = 'Madrid';
+
+-- Busca clientes que sean mayores de 18 y vivan en Madrid o que tengan 30 años
+SELECT * FROM clientes
+WHERE (edad > 18 AND ciudad = 'Madrid') OR edad = 30;
+```
+
+En el último ejemplo, los paréntesis garantizan que la condición `edad > 18 AND ciudad = 'Madrid'` se evalúe primero, y luego se combine con `edad = 30` usando OR.
+
+## Ejemplo en código  
+Supongamos una tabla `productos` con columnas `categoria` y `precio`. Queremos encontrar:
+
+1. **Productos electrónicos que cuesten menos de 500**  
+   ```sql
+   SELECT nombre, precio
+   FROM productos
+   WHERE categoria = 'Electrónica' AND precio < 500;
+   ```
+
+2. **Clientes que vivan en España o en México**  
+   ```sql
+   SELECT nombre, pais
+   FROM clientes
+   WHERE pais = 'España' OR pais = 'México';
+   ```
+
+3. **Pedidos pendientes o en proceso con un total mayor a 1000**  
+   ```sql
+   SELECT *
+   FROM pedidos
+   WHERE (estado = 'Pendiente' OR estado = 'En Proceso') AND total > 1000;
+   ```
+
+## Analogía  
+Imagina que estás organizando una fiesta y quieres invitar a personas que cumplan ciertos requisitos:
+
+- **AND**: “Invito a las personas que *tengan* un pasaporte *y* un boleto de avión.”  
+  Solo las personas que tengan ambos elementos recibirán la invitación.
+
+- **OR**: “Invito a las personas que *tengan* un pasaporte *o* un boleto de avión.”  
+  Si alguien tiene al menos uno de los dos, lo invito.
+
+En ambos casos, la lógica de “y” y “o” determina quién entra en la lista de invitados, igual que `AND` y `OR` determinan qué filas aparecen en los resultados de una consulta SQL.",Con AND ambas condiciones deben ser verdaderas; con OR basta con que al menos una de las condiciones sea verdadera.,,,,,True
+Q05,¿Qué representan los comodines % y _ en el operador LIKE?,"['3. Búsqueda Avanzada: Patrones y Listas\nMySQL ofrece herramientas de búsqueda que van más allá de la coincidencia exacta de texto o\nnúmeros, permitiéndonos buscar coincidencias parciales, rangos o listas de valores.\nBuscando texto parcial con LIKE\nEl operador LIKE se utiliza junto con dos comodines especiales para buscar un patrón\nespecíﬁco en una columna de texto:\nEl signo de porcentaje (%) representa cero, uno o múltiples caracteres.\nEl guion bajo (_) representa un único carácter exacto.', ""-- Buscar todos los nombres que COMIENCEN con la letra 'A' SELECT nombre FROM \nusuarios WHERE nombre LIKE 'A%'; -- Buscar todos los correos que CONTENGAN la \npalabra 'gmail' en cualquier parte SELECT email FROM usuarios WHERE email LIKE \n'%gmail%'; -- Buscar nombres que terminen con 'ez' (ej. Pérez, Gómez) SELECT \napellido FROM usuarios WHERE apellido LIKE '%ez';\n     \nBúsqueda en Listas (IN) y Rangos (BETWEEN)"", ""= Igual a WHERE edad = 25\n> / < Mayor que / Menor que WHERE precio > 100\n>= / <= Mayor o igual / Menor o igual WHERE stock <= 10\n!= o <> Diferente de (No es igual a) WHERE estado != 'cancelado'\nOperadores Lógicos (Múltiples condiciones)\nFrecuentemente, las búsquedas requieren cumplir más de una condición al mismo tiempo, o al\nmenos una de varias opciones. Para esto usamos AND, OR y NOT.\n-- Búsqueda con AND: Ambas condiciones DEBEN ser verdaderas -- Busca productos"", '2. La Búsqueda de Datos: La cláusula WHERE\nUna vez que tienes datos en tus tablas, rara vez querrás verlos todos al mismo tiempo. Para buscar\nregistros especíﬁcos que cumplan con ciertos criterios, utilizamos la cláusula WHERE dentro de una\nsentencia SELECT.\nOperadores de Comparación\nEl ﬁltrado básico se realiza comparando los valores de las columnas con los valores que estamos\nbuscando.\nOperador Signiﬁcado Ejemplo de uso en WHERE\n= Igual a WHERE edad = 25', ""rol IN ('Admin', 'Editor', 'Autor'); -- Uso de BETWEEN: Buscar productos cuyo \nprecio esté entre 50 y 150 SELECT producto, precio FROM inventario WHERE precio \nBETWEEN 50 AND 150; -- BETWEEN también es excelente para rangos de fechas SELECT * \nFROM ventas WHERE fecha_venta BETWEEN '2026-01-01' AND '2026-12-31';\n     \nMySQL: Creación y Búsqueda Página 3""]","## Definición breve  
+En MySQL, el operador **LIKE** permite buscar patrones dentro de cadenas de texto. Los comodines **%** y **_** son los símbolos que indican la posición y cantidad de caracteres que pueden aparecer en el patrón:
+
+- **%**: representa **cero, uno o varios caracteres**.
+- **_**: representa **exactamente un solo carácter**.
+
+## Explicación detallada  
+Cuando se escribe una condición `WHERE columna LIKE 'patrón'`, MySQL compara cada valor de la columna con el patrón especificado. Los comodines permiten flexibilidad:
+
+- **%** actúa como un “comodín de longitud variable”. Por ejemplo, `LIKE 'A%'` coincide con cualquier cadena que comience con “A”, ya sea “Ana”, “A”, “A123”, etc.  
+- **_** actúa como un “comodín de longitud fija”. Por ejemplo, `LIKE 'A_'` coincide con cualquier cadena de dos caracteres que comience con “A”, como “Ab” o “A1”, pero no con “A” ni con “ABC”.
+
+Estos comodines se usan comúnmente para búsquedas parciales, como encontrar nombres que empiezan con una letra, terminan con un sufijo, o contienen una subcadena en cualquier posición.
+
+## Ejemplo en código  
+```sql
+-- Nombres que comienzan con 'A'
+SELECT nombre FROM usuarios WHERE nombre LIKE 'A%';
+
+-- Correos que contienen 'gmail' en cualquier parte
+SELECT email FROM usuarios WHERE email LIKE '%gmail%';
+
+-- Apellidos que terminan con 'ez'
+SELECT apellido FROM usuarios WHERE apellido LIKE '%ez';
+
+-- Nombres de longitud 3 que empiezan con 'B' y terminan con 'a'
+SELECT nombre FROM usuarios WHERE nombre LIKE 'B_a';
+```
+
+## Analogía  
+Imagina que buscas una palabra en un libro sin saber exactamente cuántas letras tiene o qué letras exactas aparecen en medio.  
+- **%** es como un “comodín de espacio en blanco” que puede ocupar cualquier número de letras (incluso ninguna).  
+- **_** es como un “espacio reservado” que siempre debe ocupar exactamente una letra.  
+
+Con estos dos símbolos, puedes “dibujar” la forma de la palabra que buscas sin conocer su longitud exacta.","El signo de porcentaje (%) representa cero, uno o múltiples caracteres, y el guion bajo (_) representa un único carácter exacto.",,,,,True
+Q06,¿Cómo se buscan los valores nulos en una tabla?,"['4. Trabajando con Datos Incompletos: Valores Nulos\nEn bases de datos, un valor NULL signiﬁca que el dato está ""ausente"" o es ""desconocido"". Un campo\nvacío ("""") o un cero (0) no son lo mismo que NULL. No puedes buscar valores nulos usando el signo\nigual (= NULL); debes usar los operadores IS NULL o IS NOT NULL.\n-- Buscar usuarios que NO han proporcionado un número de teléfono SELECT nombre \nFROM clientes WHERE telefono IS NULL; -- Buscar usuarios que SÍ tienen una', '2. La Búsqueda de Datos: La cláusula WHERE\nUna vez que tienes datos en tus tablas, rara vez querrás verlos todos al mismo tiempo. Para buscar\nregistros especíﬁcos que cumplan con ciertos criterios, utilizamos la cláusula WHERE dentro de una\nsentencia SELECT.\nOperadores de Comparación\nEl ﬁltrado básico se realiza comparando los valores de las columnas con los valores que estamos\nbuscando.\nOperador Signiﬁcado Ejemplo de uso en WHERE\n= Igual a WHERE edad = 25', 'puede ser nula (vacía). Ejemplo: id_usuario.\nLlave Foránea (Foreign Key - FK): Es una columna en una tabla que hace referencia a la Llave\nPrimaria de otra tabla. Esto es lo que crea la ""relación"" entre ambas.\nTipos de Datos en MySQL\nAl crear una tabla, debemos deﬁnir qué tipo de información almacenará cada columna. Esto\noptimiza el espacio y previene errores (por ejemplo, intentar guardar un texto en un campo de\nedad).\nTipo Clasiﬁcación Descripción y Uso Común\nINT Numérico (Entero)', 'dirección registrada SELECT nombre FROM clientes WHERE direccion IS NOT NULL;\n     \n5. Limitación y Paginación de Búsquedas\nSi una búsqueda devuelve miles de resultados, es poco eﬁciente enviarlos todos de golpe a la\naplicación. Las cláusulas LIMIT y OFFSET se utilizan para restringir cuántos registros se devuelven y\ndesde dónde empezar a contar, siendo la base técnica de la ""paginación"" en páginas web.\nBuena Práctica: Siempre ordenar antes de limitar', 'resultados con la cláusula WHERE SELECT * FROM clientes WHERE id = 1;\n     \nGuía de Fundamentos de MySQL Página 3']","## Definición breve  
+En SQL, un **valor NULL** indica que el dato está ausente o desconocido. Para localizar filas que tengan NULL en una columna, no se usa el operador `=` sino los operadores `IS NULL` y `IS NOT NULL`.
+
+## Explicación detallada  
+- **`IS NULL`**: Devuelve `TRUE` cuando la columna evaluada contiene NULL.  
+- **`IS NOT NULL`**: Devuelve `TRUE` cuando la columna contiene cualquier valor distinto de NULL.
+
+Ejemplo práctico:  
+```sql
+-- Buscar clientes sin número de teléfono
+SELECT nombre
+FROM clientes
+WHERE telefono IS NULL;
+
+-- Buscar clientes con dirección registrada
+SELECT nombre
+FROM clientes
+WHERE direccion IS NOT NULL;
+```
+
+El uso de `=` con NULL no funciona porque NULL no es un valor concreto; es una ausencia de valor. Por eso SQL define operadores especiales para compararlo.
+
+## Ejemplo en código  
+```sql
+-- Tabla de ejemplo
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(50),
+    telefono VARCHAR(20),
+    direccion VARCHAR(100)
+);
+
+-- Insertar datos con y sin NULL
+INSERT INTO clientes (id, nombre, telefono, direccion) VALUES
+(1, 'Ana', NULL, 'Calle Falsa 123'),
+(2, 'Luis', '555-1234', NULL),
+(3, 'María', NULL, NULL);
+
+-- Consulta: clientes sin teléfono
+SELECT nombre
+FROM clientes
+WHERE telefono IS NULL;
+
+-- Consulta: clientes con dirección
+SELECT nombre
+FROM clientes
+WHERE direccion IS NOT NULL;
+```
+
+## Analogía  
+Imagina una caja de herramientas donde cada herramienta representa un dato.  
+- Si una herramienta está **en la caja** (valor definido), puedes usarla.  
+- Si la caja está **vacía** (NULL), no hay herramienta disponible.  
+Para saber si la caja está vacía, no miras si la herramienta es igual a “vacía” (porque no hay una herramienta concreta), sino que preguntas explícitamente: “¿está vacía la caja?” – eso es lo que hace `IS NULL`.","Se usan los operadores IS NULL o IS NOT NULL; no se puede usar = NULL. Además, NULL (dato ausente o desconocido) no es lo mismo que un campo vacío ('') ni que un cero (0).",,,,,True
+Q07,¿Por qué se recomienda usar ORDER BY junto con LIMIT?,"['Buena Práctica: Siempre ordenar antes de limitar\nSi vas a limitar los resultados, siempre acompáñalo de un ORDER BY. Si no ordenas los\nresultados de antemano, MySQL devolverá los registros en un orden arbitrario, haciendo que\ntus búsquedas sean impredecibles.\n-- Obtener los 5 productos más caros de la tienda SELECT nombre, precio FROM \nproductos ORDER BY precio DESC LIMIT 5; -- Ejemplo de Paginación: Saltar los \nprimeros 10 resultados,  -- y devolver los 10 siguientes (es decir, la ""Página 2"")', 'para realizar análisis.\nORDER BY: Ordena los resultados por una o más columnas, ya sea de forma ascendente (ASC,\npor defecto) o descendente (DESC).\nLIMIT: Restringe el número de ﬁlas que devolverá la consulta. Muy útil para la paginación.\n-- Obtener los 10 clientes más recientes ordenados por fecha de registro SELECT \nnombre, fecha_registro FROM clientes ORDER BY fecha_registro DESC LIMIT 10;\n     \nGuía de Fundamentos de MySQL Página 4', 'dirección registrada SELECT nombre FROM clientes WHERE direccion IS NOT NULL;\n     \n5. Limitación y Paginación de Búsquedas\nSi una búsqueda devuelve miles de resultados, es poco eﬁciente enviarlos todos de golpe a la\naplicación. Las cláusulas LIMIT y OFFSET se utilizan para restringir cuántos registros se devuelven y\ndesde dónde empezar a contar, siendo la base técnica de la ""paginación"" en páginas web.\nBuena Práctica: Siempre ordenar antes de limitar', 'SELECT nombre, email FROM usuarios ORDER BY id ASC LIMIT 10 OFFSET 10;\n     \nMySQL: Creación y Búsqueda Página 4', '-- Eliminar al cliente que tiene el id 3 DELETE FROM clientes WHERE id = 3;\n     \n¡Precaución con UPDATE y DELETE!\nSi ejecutas un comando UPDATE o DELETE sin escribir la cláusula WHERE, la acción afectará a\nTODAS\nlas ﬁlas de tu tabla. Ej: DELETE FROM clientes; vaciará toda la tabla.\nCláusulas Avanzadas de Consulta\nAdemás de recuperar datos básicos, SQL nos permite ordenar y agrupar la información resultante\npara realizar análisis.']","## Definición breve  
+`ORDER BY` determina el orden en que aparecen los registros devueltos por una consulta.  
+`LIMIT` restringe la cantidad de filas que se entregan (y opcionalmente, desde qué fila comenzar con `OFFSET`).  
+
+## Explicación detallada  
+Cuando se aplica `LIMIT` sin `ORDER BY`, MySQL devuelve las primeras filas que encuentre en el orden interno de la tabla. Ese orden interno no está garantizado: puede cambiar con cada ejecución, con la inserción o eliminación de registros, o con la forma en que el motor decide leer la tabla (por ejemplo, si hay índices, si se hace un `UNION`, etc.).  
+
+Al combinar `ORDER BY` con `LIMIT`, se asegura que:
+
+1. **Determinismo**: El conjunto de filas que se devuelve es siempre el mismo siempre que la base de datos no cambie.  
+2. **Paginación fiable**: Cuando se implementa paginación (`LIMIT 10 OFFSET 20`), cada página mostrará exactamente los registros que corresponden a esa posición en el orden definido.  
+3. **Resultados coherentes**: En consultas que buscan “los N más recientes”, “los N más caros”, etc., el `ORDER BY` garantiza que se seleccionen los registros correctos antes de limitar la cantidad.
+
+En el material del curso se menciona explícitamente:  
+> *“Buena Práctica: Siempre ordenar antes de limitar. Si no ordenas los resultados de antemano, MySQL devolverá los registros en un orden arbitrario, haciendo que tus búsquedas sean impredecibles.”*  
+
+Esto resalta que sin `ORDER BY`, el resultado de `LIMIT` puede variar, lo que es especialmente problemático en aplicaciones que dependen de la consistencia de los datos mostrados al usuario.
+
+## Ejemplo en código  
+```sql
+-- Obtener los 5 productos más caros
+SELECT nombre, precio
+FROM productos
+ORDER BY precio DESC
+LIMIT 5;
+```
+Si se omitiera `ORDER BY`, el `LIMIT 5` simplemente devolvería cualquier 5 filas que el motor encuentre primero, sin garantía de que sean los más caros.
+
+## Analogía  
+Imagina que tienes una fila de personas esperando para entrar a un concierto.  
+- **Sin `ORDER BY`**: Si simplemente pides a la puerta que dé la entrada a las primeras 5 personas que lleguen, podrías dar la entrada a cualquiera, sin importar su edad o preferencia.  
+- **Con `ORDER BY`**: Si primero ordenas a las personas por edad (de mayor a menor) y luego le das la entrada a las primeras 5, garantizas que siempre sean las 5 personas más mayores.  
+
+De la misma manera, `ORDER BY` organiza la fila y `LIMIT` decide cuántas personas (filas) se toman de esa fila organizada.","Porque si no se ordenan los resultados antes de limitarlos, MySQL devuelve los registros en un orden arbitrario y las búsquedas se vuelven impredecibles; por eso siempre se debe ordenar antes de limitar.",,,,,True
+Q08,¿Cómo obtengo la página 2 de resultados si cada página tiene 10 registros?,"['SELECT nombre, email FROM usuarios ORDER BY id ASC LIMIT 10 OFFSET 10;\n     \nMySQL: Creación y Búsqueda Página 4', 'Buena Práctica: Siempre ordenar antes de limitar\nSi vas a limitar los resultados, siempre acompáñalo de un ORDER BY. Si no ordenas los\nresultados de antemano, MySQL devolverá los registros en un orden arbitrario, haciendo que\ntus búsquedas sean impredecibles.\n-- Obtener los 5 productos más caros de la tienda SELECT nombre, precio FROM \nproductos ORDER BY precio DESC LIMIT 5; -- Ejemplo de Paginación: Saltar los \nprimeros 10 resultados,  -- y devolver los 10 siguientes (es decir, la ""Página 2"")', 'dirección registrada SELECT nombre FROM clientes WHERE direccion IS NOT NULL;\n     \n5. Limitación y Paginación de Búsquedas\nSi una búsqueda devuelve miles de resultados, es poco eﬁciente enviarlos todos de golpe a la\naplicación. Las cláusulas LIMIT y OFFSET se utilizan para restringir cuántos registros se devuelven y\ndesde dónde empezar a contar, siendo la base técnica de la ""paginación"" en páginas web.\nBuena Práctica: Siempre ordenar antes de limitar', 'para realizar análisis.\nORDER BY: Ordena los resultados por una o más columnas, ya sea de forma ascendente (ASC,\npor defecto) o descendente (DESC).\nLIMIT: Restringe el número de ﬁlas que devolverá la consulta. Muy útil para la paginación.\n-- Obtener los 10 clientes más recientes ordenados por fecha de registro SELECT \nnombre, fecha_registro FROM clientes ORDER BY fecha_registro DESC LIMIT 10;\n     \nGuía de Fundamentos de MySQL Página 4', '2. La Búsqueda de Datos: La cláusula WHERE\nUna vez que tienes datos en tus tablas, rara vez querrás verlos todos al mismo tiempo. Para buscar\nregistros especíﬁcos que cumplan con ciertos criterios, utilizamos la cláusula WHERE dentro de una\nsentencia SELECT.\nOperadores de Comparación\nEl ﬁltrado básico se realiza comparando los valores de las columnas con los valores que estamos\nbuscando.\nOperador Signiﬁcado Ejemplo de uso en WHERE\n= Igual a WHERE edad = 25']","## Definición breve  
+En MySQL, la cláusula **`LIMIT`** indica cuántas filas devolver y **`OFFSET`** indica cuántas filas saltar antes de comenzar a devolverlas. Juntas permiten paginar resultados: mostrar un subconjunto de filas (una “página”) de una consulta más grande.
+
+## Explicación detallada  
+Para obtener la **página 2** cuando cada página contiene **10 registros**, debes:
+
+1. **Ordenar** los resultados con `ORDER BY`.  
+   - Si no ordenas, el orden de las filas será arbitrario y la paginación no será consistente.
+2. **Saltar** los primeros 10 registros (la página 1).  
+   - `OFFSET 10` indica que se deben omitir las primeras 10 filas.
+3. **Limitar** la cantidad de filas devueltas a 10.  
+   - `LIMIT 10` asegura que solo se devuelvan 10 filas, es decir, la página 2.
+
+La consulta completa se vería así:
+
+```sql
+SELECT nombre, email
+FROM usuarios
+ORDER BY id ASC          -- Ordena de forma consistente
+LIMIT 10                 -- Devuelve 10 filas
+OFFSET 10;               -- Salta las primeras 10 filas (página 1)
+```
+
+### Generalizando a cualquier página  
+Si quieres la página **n** (donde `n` comienza en 1) con **p** filas por página, la fórmula es:
+
+```sql
+OFFSET (n - 1) * p
+LIMIT p
+```
+
+Por ejemplo, para la página 3 con 10 filas por página:
+
+```sql
+OFFSET (3 - 1) * 10   -- OFFSET 20
+LIMIT 10
+```
+
+## Ejemplo en código  
+Supongamos que tienes una tabla `productos` y quieres la página 2 con 10 productos por página, ordenados por precio descendente:
+
+```sql
+SELECT nombre, precio
+FROM productos
+ORDER BY precio DESC
+LIMIT 10
+OFFSET 10;   -- Página 2
+```
+
+## Analogía  
+Imagina que tu conjunto de resultados es un **libro** con miles de páginas.  
+- `ORDER BY` es como asegurarte de que las páginas están en el orden correcto (por ejemplo, cronológico).  
+- `OFFSET` es como saltar las primeras páginas que ya has leído.  
+- `LIMIT` es como decidir cuántas páginas leer en una sola sesión.  
+
+Para leer la **página 2** de 10 páginas por sesión, saltas las primeras 10 páginas (`OFFSET 10`) y lees las siguientes 10 (`LIMIT 10`). Así obtienes exactamente la segunda “página” de resultados.","Con LIMIT 10 OFFSET 10 (junto con un ORDER BY, por ejemplo ORDER BY id ASC): se saltan los primeros 10 resultados y se devuelven los 10 siguientes.",,,,,True
+Q09,¿Para qué se usa DELIMITER // al crear un procedimiento almacenado?,"['Concepto Clave: El DELIMITER\nEn MySQL, el símbolo ; se usa para terminar una instrucción. Al escribir procedimientos o\nfunciones que contienen múltiples líneas con sus propios ;, MySQL se confundiría y terminaría\nla ejecución prematuramente. Para solucionarlo, usamos DELIMITER // para cambiar\ntemporalmente el símbolo de cierre, escribimos nuestro bloque, y luego lo devolvemos con\nDELIMITER ;.\n2. Procedimientos Almacenados (Stored Procedures)', '2. Procedimientos Almacenados (Stored Procedures)\nUn Procedimiento Almacenado es un bloque de código SQL preparado que puedes guardar y\nreutilizar. Puede contener múltiples sentencias (SELECT, INSERT, UPDATE) y lógica condicional (IF,\nWHILE).\nCreación de un Procedimiento Básico\nImagina que todos los días necesitas ejecutar un reporte complejo. En lugar de escribir la consulta\ncada vez, la guardas en un procedimiento.\n-- Cambiamos el delimitador temporalmente DELIMITER // CREATE PROCEDURE', '1. Programación en la Base de Datos\nHasta ahora, hemos visto SQL como un lenguaje para realizar consultas y modiﬁcaciones simples.\nSin embargo, bases de datos como MySQL permiten almacenar lógica de programación completa\ndentro del propio servidor. Esto se logra mediante bloques de código que encapsulan procesos\ncomplejos, mejorando el rendimiento (al reducir el tráﬁco de red) y la seguridad.\nConcepto Clave: El DELIMITER', 'DELIMITER // CREATE PROCEDURE ConsultarSaldo(IN p_cliente_id INT, OUT p_saldo \nDECIMAL(10,2)) BEGIN SELECT SUM(monto) INTO p_saldo FROM pagos WHERE cliente_id = \np_cliente_id; END // DELIMITER ; -- Ejecutando y mostrando el resultado usando una \nvariable de sesión (@variable) CALL ConsultarSaldo(5, @saldo_actual); SELECT \n@saldo_actual AS Saldo_Del_Cliente;\n     \n3. Funciones Deﬁnidas por el Usuario (UDF)', 'ObtenerClientesRecientes() BEGIN SELECT nombre, email, fecha_registro FROM clientes \nWHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY \nfecha_registro DESC; END // -- Restauramos el delimitador normal DELIMITER ;\n     \nLlamando a un Procedimiento\nPara ejecutar el procedimiento guardado, utilizamos el comando CALL.\nCALL ObtenerClientesRecientes();\n     \nMySQL Avanzado: Procedimientos y Triggers Página 1\nmatización de reglas de negocio con Procedimientos, Funciones y Triggers.']","## Definición breve  
+`DELIMITER //` cambia temporalmente el carácter que MySQL interpreta como fin de una instrucción.  
+
+## Explicación detallada  
+En MySQL el punto y coma (`;`) marca el final de cada sentencia SQL. Cuando escribes un procedimiento almacenado, dentro de su cuerpo aparecen muchas sentencias que también terminan con `;`. Si MySQL no cambia el delimitador, leería el primer `;` que encuentre dentro del cuerpo y consideraría que el procedimiento ha terminado, lo que provocaría un error de sintaxis.
+
+Al ejecutar `DELIMITER //` le decimos a MySQL que, durante la definición del procedimiento, use `//` (o cualquier otro símbolo que elijas) como nuevo delimitador. Así, el bloque completo del procedimiento se envuelve entre `CREATE PROCEDURE … BEGIN … END //`. Cuando ya has terminado de escribir el procedimiento, vuelves a la configuración por defecto con `DELIMITER ;`.  
+
+Esto permite que el cuerpo del procedimiento contenga múltiples sentencias separadas por `;` sin que MySQL confunda el final del bloque.
+
+## Ejemplo en código  
+```sql
+DELIMITER //
+
+CREATE PROCEDURE ObtenerSaldo(
+    IN p_cliente_id INT,
+    OUT p_saldo DECIMAL(10,2)
+)
+BEGIN
+    SELECT SUM(monto) INTO p_saldo
+    FROM pagos
+    WHERE cliente_id = p_cliente_id;
+END //
+
+DELIMITER ;
+```
+
+En el ejemplo anterior, el `;` dentro del `BEGIN … END` no termina la creación del procedimiento porque el delimitador activo es `//`. Cuando se ejecuta `DELIMITER ;`, MySQL vuelve a usar el punto y coma como fin de sentencia.
+
+## Analogía  
+Imagina que estás escribiendo una carta y cada frase termina con un punto (`.`). Si quieres incluir una lista de frases dentro de la carta, pero cada frase también termina con un punto, podrías usar un guion (`-`) como separador temporal para la lista. Una vez terminada la lista, vuelves a usar el punto como separador habitual. De la misma manera, `DELIMITER //` actúa como ese guion temporal que evita confusiones dentro del bloque de código.",Porque el ; termina una instrucción y confundiría a MySQL con los ; internos del bloque; DELIMITER // cambia temporalmente el símbolo de cierre y luego se restaura con DELIMITER ;.,,,,,True
+Q10,¿Cuáles son los tres tipos de parámetros de un procedimiento almacenado?,"['Procedimientos con Parámetros\nLos procedimientos se vuelven realmente útiles cuando les pasamos variables (parámetros). Existen\ntres tipos de parámetros en MySQL:\nIN: (Por defecto) Se envía información hacia el procedimiento.\nOUT: El procedimiento devuelve un valor a través de esta variable.\nINOUT: La variable entra con un valor, se modiﬁca dentro, y sale con el nuevo valor.\n-- Procedimiento que recibe un ID y devuelve el saldo total en una variable OUT', 'Retorno de Datos\nPuede no devolver nada, devolver\nmúltiples conjuntos de datos o usar\nparámetros OUT.\nDebe devolver un solo valor\nobligatoriamente usando\nRETURN.\nModiﬁcación (DML) Permitida. Puede hacer INSERT, UPDATE,DELETE. Prohibida. Solo operaciones delectura permitidas.\nMySQL Avanzado: Procedimientos y Triggers Página 3', 'DELIMITER // CREATE PROCEDURE ConsultarSaldo(IN p_cliente_id INT, OUT p_saldo \nDECIMAL(10,2)) BEGIN SELECT SUM(monto) INTO p_saldo FROM pagos WHERE cliente_id = \np_cliente_id; END // DELIMITER ; -- Ejecutando y mostrando el resultado usando una \nvariable de sesión (@variable) CALL ConsultarSaldo(5, @saldo_actual); SELECT \n@saldo_actual AS Saldo_Del_Cliente;\n     \n3. Funciones Deﬁnidas por el Usuario (UDF)', '2. Procedimientos Almacenados (Stored Procedures)\nUn Procedimiento Almacenado es un bloque de código SQL preparado que puedes guardar y\nreutilizar. Puede contener múltiples sentencias (SELECT, INSERT, UPDATE) y lógica condicional (IF,\nWHILE).\nCreación de un Procedimiento Básico\nImagina que todos los días necesitas ejecutar un reporte complejo. En lugar de escribir la consulta\ncada vez, la guardas en un procedimiento.\n-- Cambiamos el delimitador temporalmente DELIMITER // CREATE PROCEDURE', '-- Usando la función dentro de un SELECT SELECT nombre_producto, precio, \nCalcularIVA(precio) AS valor_iva, (precio + CalcularIVA(precio)) AS precio_total \nFROM productos;\n     \nDiferencias Clave: Procedimiento vs. Función\nCaracterística Procedimiento Almacenado Función (UDF)\nPropósito Ejecutar ﬂujos de trabajo y operacionesCRUD. Realizar cálculos y devolver unvalor simple.\nInvocación Se llama con el comando CALLnombre(); Se usa en sentencias SQL:SELECT nombre();\nRetorno de Datos']","## Definición breve  
+Los procedimientos almacenados en MySQL pueden recibir y devolver valores a través de **tres tipos de parámetros**:
+
+1. **IN** – El valor se envía al procedimiento (por defecto).  
+2. **OUT** – El procedimiento devuelve un valor a través de la variable.  
+3. **INOUT** – La variable entra con un valor, se modifica dentro del procedimiento y sale con el nuevo valor.
+
+## Explicación detallada  
+- **IN**: Se utiliza cuando el procedimiento necesita leer un dato que le pasas. No puede cambiar el valor de la variable fuera del procedimiento.  
+- **OUT**: Se emplea cuando quieres que el procedimiento calcule algo y lo devuelva a la llamada. La variable debe estar declarada en la llamada y el procedimiento la asigna.  
+- **INOUT**: Combina ambos comportamientos: la variable entra con un valor inicial, el procedimiento puede modificarla y el valor actualizado se devuelve a la llamada.
+
+Estos tipos se especifican en la definición del procedimiento:
+
+```sql
+CREATE PROCEDURE ejemplo(IN p_valor INT, OUT p_resultado DECIMAL(10,2), INOUT p_total INT)
+BEGIN
+    -- lógica del procedimiento
+END;
+```
+
+## Ejemplo en código  
+Supongamos que queremos calcular el saldo de un cliente y devolver tanto el saldo como el número de transacciones:
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE ObtenerSaldo(
+    IN p_cliente_id INT,
+    OUT p_saldo DECIMAL(10,2),
+    INOUT p_transacciones INT
+)
+BEGIN
+    SELECT SUM(monto) INTO p_saldo
+    FROM pagos
+    WHERE cliente_id = p_cliente_id;
+
+    SELECT COUNT(*) INTO p_transacciones
+    FROM pagos
+    WHERE cliente_id = p_cliente_id;
+END //
+
+DELIMITER ;
+```
+
+Para llamar al procedimiento:
+
+```sql
+SET @saldo = 0;
+SET @transacciones = 0;
+
+CALL ObtenerSaldo(5, @saldo, @transacciones);
+
+SELECT @saldo AS Saldo, @transacciones AS Transacciones;
+```
+
+## Analogía  
+Imagina una **caja de herramientas**:
+
+- **IN** es como llevar una herramienta a la caja para usarla dentro del taller.  
+- **OUT** es como sacar una herramienta de la caja y devolverla al dueño después de usarla.  
+- **INOUT** es como llevar una herramienta a la caja, modificarla (por ejemplo, afilarla) y luego devolverla con la nueva forma.
+
+Así, los tres tipos de parámetros permiten enviar, recibir y modificar datos entre la llamada y el procedimiento almacenado.","IN (por defecto, envía información hacia el procedimiento), OUT (el procedimiento devuelve un valor mediante la variable) e INOUT (entra con un valor, se modifica dentro y sale con el nuevo valor).",,,,,True
+Q11,¿Qué diferencias hay entre un procedimiento almacenado y una función definida por el usuario?,"['3. Funciones Deﬁnidas por el Usuario (UDF)\nA diferencia de los procedimientos (que ejecutan acciones complejas y se llaman con CALL), una\nFunción está diseñada estrictamente para realizar un cálculo, retornar un único valor, y usarse\ndentro de otras sentencias SQL (como en un SELECT o WHERE).\nCaracterísticas de las Funciones\nSiempre deben retornar un valor mediante la instrucción RETURN.\nNo pueden modiﬁcar la base de datos (no pueden ejecutar INSERT, UPDATE, DELETE).', '-- Usando la función dentro de un SELECT SELECT nombre_producto, precio, \nCalcularIVA(precio) AS valor_iva, (precio + CalcularIVA(precio)) AS precio_total \nFROM productos;\n     \nDiferencias Clave: Procedimiento vs. Función\nCaracterística Procedimiento Almacenado Función (UDF)\nPropósito Ejecutar ﬂujos de trabajo y operacionesCRUD. Realizar cálculos y devolver unvalor simple.\nInvocación Se llama con el comando CALLnombre(); Se usa en sentencias SQL:SELECT nombre();\nRetorno de Datos', 'Se utilizan como si fueran funciones nativas de MySQL (como SUM() o COUNT()).\nDETERMINISTIC vs NOT DETERMINISTIC\nAl crear una función, MySQL requiere que indiques si es DETERMINISTIC (si le pasas los\nmismos parámetros, siempre devolverá exactamente el mismo resultado) o NOT\nDETERMINISTIC (el resultado puede variar, por ejemplo, si depende de la hora actual).\nMySQL Avanzado: Procedimientos y Triggers Página 2', 'DELIMITER // CREATE PROCEDURE ConsultarSaldo(IN p_cliente_id INT, OUT p_saldo \nDECIMAL(10,2)) BEGIN SELECT SUM(monto) INTO p_saldo FROM pagos WHERE cliente_id = \np_cliente_id; END // DELIMITER ; -- Ejecutando y mostrando el resultado usando una \nvariable de sesión (@variable) CALL ConsultarSaldo(5, @saldo_actual); SELECT \n@saldo_actual AS Saldo_Del_Cliente;\n     \n3. Funciones Deﬁnidas por el Usuario (UDF)', 'Retorno de Datos\nPuede no devolver nada, devolver\nmúltiples conjuntos de datos o usar\nparámetros OUT.\nDebe devolver un solo valor\nobligatoriamente usando\nRETURN.\nModiﬁcación (DML) Permitida. Puede hacer INSERT, UPDATE,DELETE. Prohibida. Solo operaciones delectura permitidas.\nMySQL Avanzado: Procedimientos y Triggers Página 3']","## Definición breve  
+- **Procedimiento almacenado**: bloque de código SQL que ejecuta una serie de operaciones (puede incluir DML) y se invoca con `CALL`.  
+- **Función definida por el usuario (UDF)**: bloque de código SQL que realiza un cálculo y devuelve **un único valor** mediante `RETURN`; se usa dentro de sentencias SQL como `SELECT` o `WHERE`.
+
+## Explicación detallada  
+| Característica | Procedimiento almacenado | Función UDF |
+|----------------|--------------------------|------------|
+| **Propósito** | Ejecutar flujos de trabajo y operaciones CRUD (INSERT, UPDATE, DELETE, SELECT). | Realizar cálculos y devolver un valor simple. |
+| **Invocación** | `CALL nombre_procedimiento();` | Se escribe como una función normal dentro de una sentencia SQL: `SELECT nombre_funcion(columna);` |
+| **Retorno de datos** | Puede devolver cero, uno o varios conjuntos de resultados; también puede usar parámetros `OUT` o `INOUT`. | Debe devolver exactamente un valor mediante `RETURN`. |
+| **Modificación de datos** | Permitida: puede ejecutar cualquier instrucción DML. | Prohibida: no puede ejecutar `INSERT`, `UPDATE`, `DELETE`. |
+| **Determinismo** | No se especifica en la definición. | Se debe declarar como `DETERMINISTIC` o `NOT DETERMINISTIC` para indicar si el resultado siempre será el mismo con los mismos parámetros. |
+| **Uso típico** | Llamar desde aplicaciones o scripts para realizar tareas complejas. | Usar dentro de consultas para calcular valores intermedios (ej. `CalcularIVA(precio)` en un `SELECT`). |
+
+> **Nota**: Esta información proviene directamente del material del curso (páginas 2 y 3 del PDF “Programación en MySQL”).
+
+## Ejemplo en código  
+
+```sql
+-- Procedimiento almacenado que actualiza el saldo de un cliente
+DELIMITER //
+CREATE PROCEDURE ActualizarSaldo(
+    IN p_cliente_id INT,
+    IN p_monto DECIMAL(10,2)
+)
+BEGIN
+    UPDATE clientes
+    SET saldo = saldo + p_monto
+    WHERE id = p_cliente_id;
+END //
+DELIMITER ;
+
+-- Función UDF que calcula el IVA de un precio
+DELIMITER //
+CREATE FUNCTION CalcularIVA(p_precio DECIMAL(10,2))
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    RETURN p_precio * 0.21;   -- 21% de IVA
+END //
+DELIMITER ;
+
+-- Uso de la función dentro de un SELECT
+SELECT nombre_producto,
+       precio,
+       CalcularIVA(precio) AS valor_iva,
+       precio + CalcularIVA(precio) AS precio_total
+FROM productos;
+```
+
+## Analogía  
+Imagina una **cocina**:
+
+- Un **procedimiento almacenado** es como un **chef** que recibe una orden y prepara un plato completo, pudiendo usar cualquier ingrediente (inserciones, actualizaciones) y servir el resultado en un plato (conjunto de resultados).  
+- Una **función UDF** es como una **receta de salsa**: recibe un ingrediente (el precio), hace un cálculo (añade el 21% de IVA) y devuelve un único producto (el valor de la salsa). No cambia nada más en la cocina, solo devuelve algo que se puede usar en otra receta (la consulta SQL).","El procedimiento se llama con CALL, puede no devolver nada o usar parámetros OUT y puede modificar datos (INSERT, UPDATE, DELETE). La función se usa dentro de sentencias SQL como un SELECT, debe devolver un único valor con RETURN y no puede modificar la base de datos.",,,,,True
+Q12,¿Qué es un trigger y qué representan NEW y OLD dentro de él?,"['Las variables virtuales: NEW y OLD\nDentro de un trigger, MySQL proporciona dos pseudo-registros que te permiten acceder a los\ndatos:\nNEW: Representa los datos nuevos que están a punto de insertarse o actualizarse. (Solo\nexiste en INSERT/UPDATE).\nOLD: Representa los datos viejos antes de ser modiﬁcados o eliminados. (Solo existe en\nUPDATE/DELETE).\nEjemplo: Trigger de Auditoría\nSupongamos que queremos mantener un historial (log) de cada vez que se actualiza el salario de un', '4. Triggers (Disparadores)\nUn Trigger es un programa especial que se ejecuta automáticamente en respuesta a un evento\nespecíﬁco en una tabla. Piensa en ellos como alarmas: ""Si alguien hace X, entonces haz Y de forma\nsilenciosa"".\nEventos y Tiempos de Ejecución\nEventos: Un trigger reacciona a los comandos INSERT, UPDATE, o DELETE.\nTiempos: Pueden conﬁgurarse para dispararse BEFORE (antes) o AFTER (después) de que el\nevento modiﬁque la tabla.\nLas variables virtuales: NEW y OLD', 'NOW()); END IF; END // DELIMITER ;\n     \n¿Qué sucede aquí? Cada vez que alguien ejecute un comando UPDATE empleados SET salario\n= ..., este trigger despertará automáticamente. Si el valor del salario cambió, registrará la\nmodiﬁcación de forma segura sin requerir que la aplicación principal haga inserciones adicionales\nmanuales.\nMySQL Avanzado: Procedimientos y Triggers Página 4', 'empleado. Primero, tenemos una tabla historial_salarios. Ahora creamos el trigger en la tabla\nempleados.\nDELIMITER // CREATE TRIGGER auditar_cambio_salario AFTER UPDATE ON empleados FOR \nEACH ROW BEGIN -- Verificamos si realmente hubo un cambio en la columna salario IF \nNEW.salario != OLD.salario THEN INSERT INTO historial_salarios (empleado_id, \nsalario_viejo, salario_nuevo, fecha) VALUES (OLD.id, OLD.salario, NEW.salario, \nNOW()); END IF; END // DELIMITER ;', 'ObtenerClientesRecientes() BEGIN SELECT nombre, email, fecha_registro FROM clientes \nWHERE fecha_registro >= DATE_SUB(CURDATE(), INTERVAL 30 DAY) ORDER BY \nfecha_registro DESC; END // -- Restauramos el delimitador normal DELIMITER ;\n     \nLlamando a un Procedimiento\nPara ejecutar el procedimiento guardado, utilizamos el comando CALL.\nCALL ObtenerClientesRecientes();\n     \nMySQL Avanzado: Procedimientos y Triggers Página 1\nmatización de reglas de negocio con Procedimientos, Funciones y Triggers.']","## Definición breve  
+Un **trigger** (o disparador) es un bloque de código SQL que se ejecuta automáticamente cuando ocurre un evento específico (INSERT, UPDATE o DELETE) sobre una tabla. Se define con un *tiempo de ejecución* (BEFORE o AFTER) y se activa por fila afectada (*FOR EACH ROW*).
+
+## Explicación detallada  
+- **Eventos**: El trigger responde a los comandos `INSERT`, `UPDATE` o `DELETE`.  
+- **Tiempos**:  
+  - `BEFORE`: se ejecuta *antes* de que el cambio se aplique a la tabla.  
+  - `AFTER`: se ejecuta *después* de que el cambio ya se haya hecho.  
+- **Variables virtuales**:  
+  - `NEW`: contiene los valores que se están insertando o actualizando. Solo está disponible en `INSERT` y `UPDATE`.  
+  - `OLD`: contiene los valores que existían antes de la modificación. Solo está disponible en `UPDATE` y `DELETE`.  
+  Estas variables actúan como *pseudoregistros* que permiten comparar el estado anterior y el nuevo de cada fila.
+
+Ejemplo práctico (del material del curso):
+
+```sql
+DELIMITER //
+
+CREATE TRIGGER auditar_cambio_salario
+AFTER UPDATE ON empleados
+FOR EACH ROW
+BEGIN
+    -- Verificamos si realmente hubo un cambio en la columna salario
+    IF NEW.salario <> OLD.salario THEN
+        INSERT INTO historial_salarios
+            (empleado_id, salario_viejo, salario_nuevo, fecha)
+        VALUES
+            (OLD.id, OLD.salario, NEW.salario, NOW());
+    END IF;
+END//
+
+DELIMITER ;
+```
+
+En este trigger, cuando se actualiza la tabla `empleados`, se comprueba si el salario cambió (`NEW.salario <> OLD.salario`). Si es así, se inserta un registro en `historial_salarios` con el salario anterior (`OLD.salario`) y el nuevo (`NEW.salario`).
+
+## Ejemplo en código  
+```sql
+-- Trigger que registra cambios de salario
+DELIMITER //
+
+CREATE TRIGGER log_salario
+AFTER UPDATE ON empleados
+FOR EACH ROW
+BEGIN
+    IF NEW.salario <> OLD.salario THEN
+        INSERT INTO historial_salarios
+            (empleado_id, salario_viejo, salario_nuevo, fecha)
+        VALUES
+            (OLD.id, OLD.salario, NEW.salario, NOW());
+    END IF;
+END//
+
+DELIMITER ;
+```
+
+## Analogía  
+Imagina que una tabla es un libro de registro. Cada vez que alguien escribe una nueva página (`INSERT`), cambia una página existente (`UPDATE`) o borra una página (`DELETE`), un *guardia* (el trigger) se activa.  
+- `OLD` es como leer la página antes de que el guardia la cambie.  
+- `NEW` es como leer la página después de que el guardia la haya escrito.  
+El guardia puede decidir, por ejemplo, copiar la página antigua a un archivo de respaldo (como el trigger que guarda el historial de salarios).","Un trigger es un programa que se ejecuta automáticamente ante INSERT, UPDATE o DELETE en una tabla, antes (BEFORE) o después (AFTER) del evento. NEW son los datos nuevos (existe en INSERT/UPDATE) y OLD los datos viejos antes de modificarse o eliminarse (existe en UPDATE/DELETE).",,,,,True
+Q13,¿Qué representan las filas y columnas en una tabla de base de datos relacional?,"['Fila (Registro):\nUna entrada individual en una tabla. Ej: Los datos del usuario ""Juan Pérez"".\nColumna (Campo):\nUn atributo especíﬁco de los datos en la tabla. Ej: ""Nombre"", ""Email"", ""Edad"".\nGuía de Fundamentos de MySQL Página 1\nde Inicio Rápido: De los conceptos básicos a MySQL y JOINs.', 'datos.\nBases de Datos Relacionales y SQL\nEl tipo más común de base de datos en el entorno corporativo es la Base de Datos Relacional\n(RDBMS). Este tipo organiza los datos en tablas con columnas y ﬁlas (muy similar a una hoja de\ncálculo). Las diferentes tablas pueden ""relacionarse"" entre sí a partir de datos comunes.\nPara interactuar con estas bases de datos utilizamos SQL (Structured Query Language), el\nlenguaje estándar para almacenar, manipular y recuperar datos.\n¿Qué es MySQL?', 'Llaves y Relaciones\nPara que las tablas puedan conectarse entre sí de manera eﬁciente y asegurar que no haya datos\nduplicados o registros huérfanos, MySQL utiliza el concepto de ""Llaves"" (Keys).\nLlave Primaria (Primary Key - PK): Es una columna (o conjunto de columnas) que identiﬁca de\nmanera única cada ﬁla en una tabla. No puede haber dos ﬁlas con la misma llave primaria, y no\npuede ser nula (vacía). Ejemplo: id_usuario.', 'puede ser nula (vacía). Ejemplo: id_usuario.\nLlave Foránea (Foreign Key - FK): Es una columna en una tabla que hace referencia a la Llave\nPrimaria de otra tabla. Esto es lo que crea la ""relación"" entre ambas.\nTipos de Datos en MySQL\nAl crear una tabla, debemos deﬁnir qué tipo de información almacenará cada columna. Esto\noptimiza el espacio y previene errores (por ejemplo, intentar guardar un texto en un campo de\nedad).\nTipo Clasiﬁcación Descripción y Uso Común\nINT Numérico (Entero)', 'Trabajando con Múltiples Tablas: Los JOINs\nLa verdadera potencia de una base de datos relacional radica en su capacidad de conectar datos\ndispersos en diferentes tablas. La cláusula JOIN se utiliza para combinar ﬁlas de dos o más tablas,\nbasándose en una columna común entre ellas (normalmente relacionando una Llave Foránea con\nuna Llave Primaria).\nTipos principales de JOIN\nINNER JOIN:\nDevuelve únicamente las ﬁlas que tienen una coincidencia en\nambas\ntablas. Es el más común.\nLEFT JOIN:']","## Definición breve  
+- **Fila (registro)**: una única entrada de datos que representa un objeto o entidad concreta (por ejemplo, un usuario).  
+- **Columna (campo)**: un atributo que describe una característica de ese objeto (por ejemplo, el nombre, el correo o la edad).
+
+## Explicación detallada  
+En una base de datos relacional, una tabla es una estructura bidimensional compuesta por filas y columnas.  
+
+- **Filas**: cada fila contiene valores que corresponden a una instancia específica de la entidad que modela la tabla. La combinación de valores en una fila debe ser única cuando se utiliza una **llave primaria (PK)**, garantizando que no haya duplicados.  
+- **Columnas**: cada columna define un tipo de dato y un atributo que todos los registros comparten. Por ejemplo, la columna `email` siempre almacenará direcciones de correo, y su tipo de dato podría ser `VARCHAR`.  
+
+Cuando se crean relaciones entre tablas, las columnas de tipo **llave foránea (FK)** hacen referencia a la PK de otra tabla, estableciendo la conexión entre registros de distintas tablas.
+
+## Ejemplo en código  
+```sql
+-- Tabla de usuarios
+CREATE TABLE usuarios (
+    id_usuario INT PRIMARY KEY,
+    nombre VARCHAR(50),
+    email VARCHAR(100),
+    edad INT
+);
+
+-- Tabla de pedidos
+CREATE TABLE pedidos (
+    id_pedido INT PRIMARY KEY,
+    id_usuario INT,
+    fecha DATE,
+    monto DECIMAL(10,2),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
+-- Insertar un usuario
+INSERT INTO usuarios (id_usuario, nombre, email, edad)
+VALUES (1, 'Juan Pérez', 'juan@example.com', 30);
+
+-- Insertar un pedido asociado al usuario
+INSERT INTO pedidos (id_pedido, id_usuario, fecha, monto)
+VALUES (101, 1, '2024-10-15', 250.00);
+```
+
+En el ejemplo, cada **fila** de `usuarios` representa un usuario distinto, y cada **columna** (`id_usuario`, `nombre`, `email`, `edad`) describe un atributo de ese usuario. La tabla `pedidos` utiliza la columna `id_usuario` como **llave foránea** para enlazar cada pedido con el usuario que lo realizó.
+
+## Analogía  
+Piensa en una tabla como una hoja de cálculo de Excel:  
+
+- **Filas** son las filas horizontales donde cada línea contiene la información de un objeto (por ejemplo, un cliente).  
+- **Columnas** son las columnas verticales que indican qué tipo de dato se guarda en cada celda (nombre, correo, edad).  
+
+Al igual que en una hoja de cálculo, cada celda (intersección de fila y columna) contiene un valor concreto, y la combinación de todas las celdas de una fila forma un registro completo.","Las columnas representan los atributos, características o campos que definen la estructura de los datos, mientras que las filas (o tuplas) representan los registros individuales o instancias de esos datos.",,,,,True
+Q14,¿Cuál es la principal diferencia entre los tipos de datos CHAR y VARCHAR en MySQL?,"['INT Numérico (Entero)\nNúmeros enteros sin decimales. Rango de -2147483648 a\n2147483647. Ideal para edades, cantidades y Llaves\nPrimarias (IDs).\nDECIMAL(M,D) Numérico (Exacto) Números con decimales ﬁjos (ej. moneda). M = total dedígitos, D = decimales. Ej: DECIMAL(10,2) para precios.\nVARCHAR(N) Cadena de texto\nTexto de longitud variable hasta N caracteres (máx.\n65535). Ideal para nombres, correos electrónicos y\ndirecciones.\nTEXT Cadena de texto', ""direcciones.\nTEXT Cadena de texto\nPara textos largos que exceden los límites comunes del\nVARCHAR. Útil para artículos, descripciones de productos\no comentarios.\nDATE Fecha Almacena una fecha en formato 'YYYY-MM-DD'. Ej:Fechas de nacimiento.\nDATETIME Fecha y Hora\nAlmacena fecha y hora en formato 'YYYY-MM-DD\nHH:MM:SS'. Útil para registrar cuándo se realizó una\ncompra.\nBOOLEAN Lógico\nEn MySQL se traduce como TINYINT(1). Almacena 1\n(Verdadero/True) o 0 (Falso/False). Útil para estados"", 'puede ser nula (vacía). Ejemplo: id_usuario.\nLlave Foránea (Foreign Key - FK): Es una columna en una tabla que hace referencia a la Llave\nPrimaria de otra tabla. Esto es lo que crea la ""relación"" entre ambas.\nTipos de Datos en MySQL\nAl crear una tabla, debemos deﬁnir qué tipo de información almacenará cada columna. Esto\noptimiza el espacio y previene errores (por ejemplo, intentar guardar un texto en un campo de\nedad).\nTipo Clasiﬁcación Descripción y Uso Común\nINT Numérico (Entero)', 'Fila (Registro):\nUna entrada individual en una tabla. Ej: Los datos del usuario ""Juan Pérez"".\nColumna (Campo):\nUn atributo especíﬁco de los datos en la tabla. Ej: ""Nombre"", ""Email"", ""Edad"".\nGuía de Fundamentos de MySQL Página 1\nde Inicio Rápido: De los conceptos básicos a MySQL y JOINs.', 'datos.\nBases de Datos Relacionales y SQL\nEl tipo más común de base de datos en el entorno corporativo es la Base de Datos Relacional\n(RDBMS). Este tipo organiza los datos en tablas con columnas y ﬁlas (muy similar a una hoja de\ncálculo). Las diferentes tablas pueden ""relacionarse"" entre sí a partir de datos comunes.\nPara interactuar con estas bases de datos utilizamos SQL (Structured Query Language), el\nlenguaje estándar para almacenar, manipular y recuperar datos.\n¿Qué es MySQL?']","## Definición breve  
+`CHAR` y `VARCHAR` son tipos de datos de texto en MySQL, pero difieren en cómo almacenan la longitud de la cadena y en el rendimiento que ofrecen según el uso.
+
+## Explicación detallada  
+- **CHAR(n)**  
+  - Reserva exactamente *n* caracteres para cada valor, rellenando con espacios en blanco a la derecha si la cadena es más corta.  
+  - La longitud es fija, por lo que el motor de MySQL no necesita calcular el tamaño de cada registro.  
+  - Es más eficiente cuando todas las cadenas tienen la misma longitud (por ejemplo, códigos de país de 2 caracteres).  
+  - El espacio ocupado siempre es *n* bytes (más 1 o 2 bytes de longitud, según el tamaño).
+
+- **VARCHAR(n)**  
+  - Reserva solo el número de caracteres que realmente necesita, más 1 o 2 bytes para almacenar la longitud.  
+  - La longitud es variable, lo que permite ahorrar espacio cuando las cadenas son más cortas que *n*.  
+  - Requiere un pequeño cálculo adicional para determinar la longitud de cada registro, lo que puede afectar el rendimiento en tablas muy grandes o con muchas actualizaciones.  
+  - Ideal para datos de longitud variable, como nombres, correos electrónicos o descripciones.
+
+**Resumen de la diferencia principal**  
+`CHAR` tiene longitud fija y es más rápido para valores de longitud constante; `VARCHAR` tiene longitud variable y ahorra espacio cuando los valores son más cortos que el límite máximo.
+
+> Esto no proviene del material del curso, pero es una práctica estándar en MySQL.
+
+## Ejemplo en código  
+```sql
+-- Tabla con columnas CHAR y VARCHAR
+CREATE TABLE usuarios (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    codigo      CHAR(2),          -- siempre 2 caracteres
+    nombre      VARCHAR(50),      -- hasta 50 caracteres, pero solo ocupa lo necesario
+    email       VARCHAR(100)
+);
+
+-- Insertar datos
+INSERT INTO usuarios (codigo, nombre, email)
+VALUES ('US', 'Juan Pérez', 'juan.perez@example.com');
+
+-- Verificar el tamaño de almacenamiento
+SELECT 
+    LENGTH(codigo) AS len_codigo,
+    LENGTH(nombre) AS len_nombre,
+    LENGTH(email)  AS len_email
+FROM usuarios;
+```
+
+En la tabla anterior, `codigo` siempre ocupa 2 bytes, mientras que `nombre` y `email` solo usan el número de caracteres que realmente contienen.
+
+## Analogía  
+Imagina una caja de regalo:  
+- **CHAR** es como una caja de tamaño fijo que siempre tiene la misma medida, sin importar cuántos regalos pongas dentro. Si el regalo es pequeño, la caja sigue ocupando el mismo espacio.  
+- **VARCHAR** es como una caja elástica que se ajusta al tamaño del contenido; si el regalo es pequeño, la caja también es pequeña, ahorrando espacio.  
+
+Elige CHAR cuando el contenido siempre tiene la misma longitud y VARCHAR cuando la longitud varía.","CHAR tiene una longitud fija y siempre ocupa el tamaño definido (rellenando con espacios si es necesario), mientras que VARCHAR es de longitud variable y solo ocupa el espacio del texto ingresado más uno o dos bytes para registrar su longitud.",,,,,True
+Q15,¿Por qué es fundamental incluir siempre la cláusula WHERE al utilizar sentencias como UPDATE o DELETE?,"['-- Eliminar al cliente que tiene el id 3 DELETE FROM clientes WHERE id = 3;\n     \n¡Precaución con UPDATE y DELETE!\nSi ejecutas un comando UPDATE o DELETE sin escribir la cláusula WHERE, la acción afectará a\nTODAS\nlas ﬁlas de tu tabla. Ej: DELETE FROM clientes; vaciará toda la tabla.\nCláusulas Avanzadas de Consulta\nAdemás de recuperar datos básicos, SQL nos permite ordenar y agrupar la información resultante\npara realizar análisis.', ""4. Actualizar Datos (UPDATE)\nSe utiliza para modiﬁcar los valores de registros que ya existen en la tabla. Es vital utilizar la cláusula\nWHERE para no actualizar toda la tabla por error.\n-- Cambiar el correo electrónico del cliente con id 2 UPDATE clientes SET email = \n'nuevo_correo_carlos@ejemplo.com' WHERE id = 2;\n     \n5. Eliminar Datos (DELETE)\nBorra ﬁlas de una tabla de forma permanente. Al igual que con UPDATE, el WHERE es fundamental."", 'resultados con la cláusula WHERE SELECT * FROM clientes WHERE id = 1;\n     \nGuía de Fundamentos de MySQL Página 3', '2. La Búsqueda de Datos: La cláusula WHERE\nUna vez que tienes datos en tus tablas, rara vez querrás verlos todos al mismo tiempo. Para buscar\nregistros especíﬁcos que cumplan con ciertos criterios, utilizamos la cláusula WHERE dentro de una\nsentencia SELECT.\nOperadores de Comparación\nEl ﬁltrado básico se realiza comparando los valores de las columnas con los valores que estamos\nbuscando.\nOperador Signiﬁcado Ejemplo de uso en WHERE\n= Igual a WHERE edad = 25', '3. Funciones Deﬁnidas por el Usuario (UDF)\nA diferencia de los procedimientos (que ejecutan acciones complejas y se llaman con CALL), una\nFunción está diseñada estrictamente para realizar un cálculo, retornar un único valor, y usarse\ndentro de otras sentencias SQL (como en un SELECT o WHERE).\nCaracterísticas de las Funciones\nSiempre deben retornar un valor mediante la instrucción RETURN.\nNo pueden modiﬁcar la base de datos (no pueden ejecutar INSERT, UPDATE, DELETE).']","## Definición breve  
+La cláusula **WHERE** filtra las filas que serán afectadas por una sentencia `UPDATE` o `DELETE`. Sin ella, la operación se aplica a **todas** las filas de la tabla.
+
+## Explicación detallada  
+En los fragmentos del material se indica explícitamente que, al ejecutar `UPDATE` o `DELETE` sin `WHERE`, la acción afectará a todas las filas:
+
+- `DELETE FROM clientes;` vaciará toda la tabla.
+- `UPDATE clientes SET email = 'nuevo@ejemplo.com';` cambiará el correo de **todos** los clientes.
+
+Esto ocurre porque, en SQL, la ausencia de una condición de filtrado significa que la operación debe aplicarse a cada registro de la tabla. Si el objetivo es modificar o eliminar solo ciertos registros, se debe especificar la condición que los identifica. De lo contrario, se corre el riesgo de:
+
+1. **Pérdida de datos**: eliminar accidentalmente toda la tabla.
+2. **Cambios no deseados**: actualizar valores en registros que no deberían cambiar.
+3. **Impacto en rendimiento**: operaciones sobre grandes volúmenes de datos cuando solo se necesitaba un subconjunto.
+
+Por eso, el material enfatiza que la cláusula `WHERE` es **fundamental** para evitar errores graves y garantizar que la operación sea precisa y segura.
+
+## Ejemplo en código  
+```sql
+-- Correcto: actualizar solo el cliente con id 2
+UPDATE clientes
+SET email = 'nuevo_correo_carlos@ejemplo.com'
+WHERE id = 2;
+
+-- Incorrecto: actualizar el email de todos los clientes
+UPDATE clientes
+SET email = 'nuevo_correo_carlos@ejemplo.com';
+```
+
+```sql
+-- Correcto: eliminar solo el cliente con id 3
+DELETE FROM clientes
+WHERE id = 3;
+
+-- Incorrecto: eliminar todos los clientes
+DELETE FROM clientes;
+```
+
+## Analogía  
+Imagina que tuvieras una gran caja de lápices de colores y quisieras cambiar el color de **solo** el lápiz rojo. Si le dices a tu asistente: “Cambia el color de todos los lápices”, terminará cambiando el color de cada lápiz, no solo el rojo. La cláusula `WHERE` es como decirle a tu asistente: “Cambia el color **solo** del lápiz que tiene el número 3”. Así, la acción se limita al objeto correcto y no afecta a los demás.","Porque si se omite la cláusula WHERE, no hay ningún filtro aplicado, lo que provocará que la actualización o eliminación afecte a todos los registros de la tabla masivamente, pudiendo causar una pérdida grave de datos.",,,,,True
+Q16,¿Cómo funciona la cláusula PRIMARY KEY en una tabla?,"['Llaves y Relaciones\nPara que las tablas puedan conectarse entre sí de manera eﬁciente y asegurar que no haya datos\nduplicados o registros huérfanos, MySQL utiliza el concepto de ""Llaves"" (Keys).\nLlave Primaria (Primary Key - PK): Es una columna (o conjunto de columnas) que identiﬁca de\nmanera única cada ﬁla en una tabla. No puede haber dos ﬁlas con la misma llave primaria, y no\npuede ser nula (vacía). Ejemplo: id_usuario.', ""id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(100) NOT NULL, email VARCHAR(100) \nUNIQUE, fecha_registro DATE );\n     \n2. Insertar Datos (INSERT INTO - Create)\nUna vez creada la tabla, utilizamos la sentencia INSERT INTO para agregar nuevas ﬁlas (registros).\n-- Insertar un solo registro. El 'id' se genera automáticamente. INSERT INTO \nclientes (nombre, email, fecha_registro) VALUES ('Ana López', 'ana@ejemplo.com', \n'2026-05-10'); -- Insertar múltiples registros a la vez INSERT INTO clientes"", 'puede ser nula (vacía). Ejemplo: id_usuario.\nLlave Foránea (Foreign Key - FK): Es una columna en una tabla que hace referencia a la Llave\nPrimaria de otra tabla. Esto es lo que crea la ""relación"" entre ambas.\nTipos de Datos en MySQL\nAl crear una tabla, debemos deﬁnir qué tipo de información almacenará cada columna. Esto\noptimiza el espacio y previene errores (por ejemplo, intentar guardar un texto en un campo de\nedad).\nTipo Clasiﬁcación Descripción y Uso Común\nINT Numérico (Entero)', 'resultados con la cláusula WHERE SELECT * FROM clientes WHERE id = 1;\n     \nGuía de Fundamentos de MySQL Página 3', '-- Eliminar al cliente que tiene el id 3 DELETE FROM clientes WHERE id = 3;\n     \n¡Precaución con UPDATE y DELETE!\nSi ejecutas un comando UPDATE o DELETE sin escribir la cláusula WHERE, la acción afectará a\nTODAS\nlas ﬁlas de tu tabla. Ej: DELETE FROM clientes; vaciará toda la tabla.\nCláusulas Avanzadas de Consulta\nAdemás de recuperar datos básicos, SQL nos permite ordenar y agrupar la información resultante\npara realizar análisis.']","## Definición breve  
+La cláusula **PRIMARY KEY** declara una columna (o conjunto de columnas) que identifica de forma única cada fila de una tabla. No puede contener valores duplicados ni nulos.
+
+## Explicación detallada  
+1. **Unicidad**  
+   - Cuando se crea una tabla con `PRIMARY KEY`, el motor de base de datos crea automáticamente un índice único sobre esa columna.  
+   - Cada vez que insertas o actualizas una fila, el motor verifica que el valor de la PK no exista ya en la tabla. Si lo hace, la operación falla.
+
+2. **No nulo**  
+   - La PK no puede ser `NULL`. Si intentas insertar un registro con `NULL` en la columna PK, la base de datos devuelve un error.  
+   - Esto garantiza que cada fila tenga un identificador válido.
+
+3. **Índice subyacente**  
+   - El índice creado por la PK acelera las búsquedas, actualizaciones y eliminaciones que usan esa columna.  
+   - En MySQL, el índice es de tipo **BTREE** por defecto, lo que permite búsquedas rápidas y ordenación natural.
+
+4. **Relaciones**  
+   - Cuando otra tabla necesita referenciar a esta tabla, se crea una **FOREIGN KEY** que apunta a la PK.  
+   - La PK actúa como la “clave de referencia” que garantiza la integridad referencial.
+
+5. **Auto‑incremento**  
+   - En muchos casos se combina con `AUTO_INCREMENT` para generar automáticamente un número único cada vez que se inserta una fila.  
+   - Ejemplo: `id INT AUTO_INCREMENT PRIMARY KEY`.
+
+## Ejemplo en código  
+```sql
+-- Creación de la tabla 'clientes' con una PK
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,   -- PK
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    fecha_registro DATE
+);
+
+-- Insertar un registro (el id se genera automáticamente)
+INSERT INTO clientes (nombre, email, fecha_registro)
+VALUES ('Ana López', 'ana@ejemplo.com', '2026-05-10');
+
+-- Intentar insertar otro registro con el mismo id (fallará)
+INSERT INTO clientes (id, nombre, email, fecha_registro)
+VALUES (1, 'Luis Pérez', 'luis@ejemplo.com', '2026-06-01');
+-- ERROR: Duplicate entry '1' for key 'PRIMARY'
+```
+
+## Analogía  
+Imagina una **casa de la policía** donde cada agente tiene una **cédula de identidad** única.  
+- La cédula es la **PRIMARY KEY**: nadie puede tener la misma cédula, y nadie puede quedarse sin una.  
+- Cuando la policía necesita localizar a un agente, busca por su cédula; el sistema de archivos (el índice) hace que la búsqueda sea instantánea.  
+- Si otro agente intenta usar la misma cédula, el sistema le bloquea el acceso, igual que la base de datos evita duplicados.  
+
+Así, la PK garantiza que cada registro sea único, identificable y que las relaciones entre tablas se mantengan consistentes.","La PRIMARY KEY (clave primaria) identifica de forma única cada registro en una tabla. No puede contener valores nulos (NULL) y sus valores no pueden repetirse, asegurando la integridad de los datos.",,,,,True
+Q17,¿Cuál es la diferencia de resultados entre un INNER JOIN y un LEFT JOIN?,"['ambas\ntablas. Es el más común.\nLEFT JOIN:\nDevuelve todas las ﬁlas de la tabla de la izquierda (la primera que se menciona), y las ﬁlas\ncoincidentes de la tabla de la derecha. Si no hay coincidencia, devuelve valores NULL para\nel lado derecho.\nRIGHT JOIN:\nIgual que el LEFT, pero devuelve todo de la tabla de la derecha.\nEjemplo Práctico de INNER JOIN\nImagina que tenemos la tabla clientes (creada anteriormente) y una nueva tabla pedidos.', 'Trabajando con Múltiples Tablas: Los JOINs\nLa verdadera potencia de una base de datos relacional radica en su capacidad de conectar datos\ndispersos en diferentes tablas. La cláusula JOIN se utiliza para combinar ﬁlas de dos o más tablas,\nbasándose en una columna común entre ellas (normalmente relacionando una Llave Foránea con\nuna Llave Primaria).\nTipos principales de JOIN\nINNER JOIN:\nDevuelve únicamente las ﬁlas que tienen una coincidencia en\nambas\ntablas. Es el más común.\nLEFT JOIN:', 'clientes.nombre, pedidos.producto, pedidos.monto FROM clientes INNER JOIN pedidos \nON clientes.id = pedidos.cliente_id;\n     \nExplicación: Le decimos a MySQL: ""Tráeme columnas de clientes y de pedidos. Conecta ambas tablas\nbasándote en la regla ON: el ID principal del cliente debe ser exactamente igual al ID guardado en el\nregistro del pedido"". El resultado será una única tabla consolidada y lista para analizar.\nGuía de Fundamentos de MySQL Página 5', 'Queremos saber qué compró cada cliente consultando ambas tablas al mismo tiempo.\n-- Estructura de la tabla pedidos (referenciando al cliente) CREATE TABLE pedidos ( \nid_pedido INT AUTO_INCREMENT PRIMARY KEY, cliente_id INT, producto VARCHAR(100), \nmonto DECIMAL(10,2), FOREIGN KEY (cliente_id) REFERENCES clientes(id) );\n     \nAhora, utilizamos INNER JOIN para juntar la información del cliente con el detalle de su pedido:\n-- Obtener el Nombre del cliente, el Producto que compró y el Monto SELECT', ""Búsqueda en Listas (IN) y Rangos (BETWEEN)\nCuando necesitas comprobar si un valor coincide con cualquiera dentro de una lista especíﬁca, usar\nmúltiples OR puede hacer el código muy largo. IN simpliﬁca esto. Por otro lado, BETWEEN es ideal\npara buscar dentro de un rango continuo de números o fechas.\n-- Uso de IN: Buscar usuarios que tengan roles específicos -- Equivalente a: rol = \n'Admin' OR rol = 'Editor' OR rol = 'Autor' SELECT nombre, rol FROM empleados WHERE""]","## Definición breve  
+- **INNER JOIN** devuelve solo las filas que tienen coincidencias en **ambas** tablas.  
+- **LEFT JOIN** devuelve todas las filas de la tabla de la izquierda (la primera que se menciona) y, cuando existe una coincidencia en la tabla de la derecha, incluye esos datos; si no hay coincidencia, rellena con `NULL` los campos de la tabla derecha.
+
+## Explicación detallada  
+En una consulta con `JOIN`, MySQL compara una columna de la tabla izquierda con una columna de la tabla derecha según la condición `ON`.  
+
+- **INNER JOIN**:  
+  - Se filtran las filas resultantes para que solo queden aquellas donde la condición sea verdadera en ambas tablas.  
+  - Si un cliente no tiene pedidos, esa fila no aparecerá en el resultado.  
+
+- **LEFT JOIN**:  
+  - Se conserva cada fila de la tabla izquierda, sin importar si hay coincidencia.  
+  - Cuando no hay pedido asociado, los campos provenientes de la tabla derecha aparecen como `NULL`.  
+  - Así se puede ver la lista completa de clientes, incluso los que no han comprado nada.
+
+## Ejemplo en código  
+Supongamos las tablas `clientes` y `pedidos`:
+
+```sql
+-- Tabla clientes
+CREATE TABLE clientes (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(50)
+);
+
+-- Tabla pedidos
+CREATE TABLE pedidos (
+    id_pedido INT PRIMARY KEY,
+    cliente_id INT,
+    producto VARCHAR(100),
+    monto DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- INNER JOIN
+SELECT c.nombre, p.producto, p.monto
+FROM clientes c
+INNER JOIN pedidos p
+ON c.id = p.cliente_id;
+
+-- LEFT JOIN
+SELECT c.nombre, p.producto, p.monto
+FROM clientes c
+LEFT JOIN pedidos p
+ON c.id = p.cliente_id;
+```
+
+Si el cliente “Ana” no tiene pedidos, la primera consulta no mostrará su nombre, mientras que la segunda sí lo mostrará con `producto = NULL` y `monto = NULL`.
+
+## Analogía  
+Imagina una lista de invitados a una fiesta (tabla `clientes`) y una lista de regalos que cada invitado ha traído (tabla `pedidos`).  
+
+- **INNER JOIN** es como preguntar: “¿Quiénes de los invitados trajeron regalos?” Solo obtendrás los nombres de los que sí trajeron algo.  
+- **LEFT JOIN** es como preguntar: “¿Quiénes fueron invitados y qué regalo trajeron, si lo trajeron?” Obtendrás la lista completa de invitados; para los que no trajeron regalo, la respuesta será “no traído” (representado por `NULL`).","Un INNER JOIN devuelve únicamente los registros que tienen coincidencias en ambas tablas cruzadas. Un LEFT JOIN devuelve todos los registros de la tabla de la izquierda, y si no hay coincidencia en la tabla de la derecha, rellena esos campos con valores NULL.",,,,,True
